@@ -1,0 +1,172 @@
+@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Web
+@inject JsonFileProductService ProductService
+
+<div class="card-columns">
+    
+    @foreach (var product in ProductService.GetAllData())
+    {
+        <div class="card">
+            <div class="card-img" style="background-image: url('@product.Image');">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@product.Title</h5>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">
+                    <button @onclick="(e => SelectProduct(product.Id))"
+                        data-toggle="modal" data-target="#productModal" class="btn btn-primary">
+                        More Info
+                    </button>
+                </small>
+            </div>
+        </div>
+    }
+</div>
+
+@if (selectedProduct != null)
+{
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productTitle">@selectedProduct.Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-img" style="background-image: url('@selectedProduct.Image');">
+                        </div>
+                        <!--
+                        This section of the modal's card body displays detailed information about the selected product, including:
+
+                        1. **Product Description**:
+                           - Shows the description of the selected product using `@selectedProduct.Description`.
+
+                        2. **Director Information**:
+                           - Displays the director's name with the label "Director".
+
+                        3. **Cast List**:
+                           - Iterates over `selectedProduct.Cast`, which is a collection of actor names, and renders each actor as an inline list item. This creates a clean, inline display of the cast members for easy readability.
+
+                        4. **Trailer Link**:
+                           - Provides a clickable link labeled "Watch Trailer" that opens the product's trailer URL (`@selectedProduct.TrailerUrl`) in a new browser tab (`target="_blank"`), allowing users to view the trailer without leaving the page.
+
+                        This structured layout provides a concise and visually organized view of the product's main details within the modal.
+                        -->
+                        <div class="card-body">
+                            <p class="card-text">@selectedProduct.Description</p>
+                            <p class="card-text">Director: @selectedProduct.Director</p>
+                            <p class="card-text">Cast:</p>
+                            <ul class="list-inline">
+                                @foreach (var actor in selectedProduct.Cast)
+                                {
+                                    <li class="list-inline-item">@actor</li>
+                                }
+                            <p class=" card-text">
+                                    <a href="@selectedProduct.TrailerUrl" target="_blank">Watch Trailer</a>
+                            </p>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if (voteCount == 0)
+                    {
+                        <span>Be the first to vote!</span>
+                    }
+                    else
+                    {
+                        <span>@voteCount @voteLabel</span>
+                    }
+                    @for (int i = 1; i < 6; i++)
+                    {
+                        var currentStar = i;
+                        if (i <= currentRating)
+                        {
+                            <span class="fa fa-star checked" @onclick="(e => SubmitRating(currentStar))"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-star" @onclick="(e => SubmitRating(currentStar))"></span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@code
+{
+    ProductModel selectedProduct;
+    string selectedProductId;
+    /// <summary>
+    /// Selects a product by its unique product ID and retrieves its data, setting it as the active `selectedProduct`.
+    /// - **Parameters**:
+    ///     - `productId` (string): The unique identifier of the product to select.
+    /// - **Functionality**:
+    ///     - Assigns `productId` to `selectedProductId` to track the current product selection.
+    ///     - Searches for the product in the collection retrieved from `ProductService.GetAllData()`,
+    ///       selecting the first item that matches the given `productId` and assigns it to `selectedProduct`.
+    ///     - Calls `GetCurrentRating()` to calculate and display the current rating for the selected product.
+
+    /// </summary>
+    /// <param name="productId"></param>
+    void SelectProduct(string productId)
+    {
+        selectedProductId = productId;
+        selectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
+        GetCurrentRating();
+    }
+
+    int currentRating = 0;
+    int voteCount = 0;
+    string voteLabel;
+    /// <summary>
+    /// Calculates and displays the current rating and vote count for the selected product.
+    /// </summary>
+    /// This method performs the following actions:
+    /// 1. Checks if the `Ratings` list for the `selectedProduct` is null.
+    ///    - If null, it sets `currentRating` and `voteCount` to 0, indicating no ratings are available.
+    /// 2. If `Ratings` is not null:
+    ///    - Calculates the `voteCount` as the number of ratings.
+    ///    - Sets `voteLabel` to "Vote" if there is only one rating, otherwise sets it to "Votes".
+    ///    - Computes `currentRating` as the average rating by dividing the sum of all ratings by the vote count.
+    /// 3. Logs the current rating for the selected product to the console.
+    void GetCurrentRating()
+    {
+        if (selectedProduct.Ratings == null)
+        {
+            currentRating = 0;
+            voteCount = 0;
+        }
+        else
+        {
+            voteCount = selectedProduct.Ratings.Count();
+            voteLabel = voteCount > 1 ? "Votes" : "Vote";
+            currentRating = selectedProduct.Ratings.Sum() / voteCount;
+        }
+
+        System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
+    }
+    /// <summary>
+    /// Submits a rating for the currently selected product.
+    /// </summary>
+    /// <param name="rating">The rating value to be added to the selected product, typically on a predefined scale (e.g., 1 to 5).</param>
+    /// This method performs the following actions:
+    /// 1. Logs the rating received for the selected product to the console.
+    /// 2. Adds the rating to the product using the `ProductService`.
+    /// 3. Refreshes the selected product data by reloading it after adding the rating.
+    void SubmitRating(int rating)
+    {
+        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
+        ProductService.AddRating(selectedProductId, rating);
+        SelectProduct(selectedProductId);
+    }
+}

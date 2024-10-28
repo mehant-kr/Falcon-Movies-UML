@@ -1,0 +1,28 @@
+﻿@page
+@model ContosoCrafts.WebSite.Pages.Product.IndexModel
+@{
+    ViewData["Title"] = "Movies";
+}
+
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Title</td>
+                    <td>
+                        <a asp-page="/Product/Read" asp-route-id="@product.Id">Read</a> &nbsp;
+                        <a asp-page="/Product/Update" asp-route-id="@product.Id">Update</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

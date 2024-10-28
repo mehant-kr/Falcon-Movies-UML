@@ -1,0 +1,215 @@
+﻿.luxurious-roman-regular {
+    font-family: "Luxurious Roman", serif;
+    font-weight: 400;
+    font-style: normal;
+    /*Created font to the Title of the website*/
+}
+
+
+.checked {
+    color: orange;
+}
+
+.fa-star {
+    cursor: pointer;
+}
+
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+.card-columns .card {
+    border-radius: 10px;
+    overflow: hidden; /* Ensures child elements respect the border radius */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box-shadow */
+}
+
+    .card-columns .card:hover .card-img {
+        opacity: 1;
+        -webkit-transform-style: preserve-3d;
+    }
+
+.card-columns .card-body {
+    height: 100px;
+    font-family: "Marcellus", sans-serif;
+    background: #fbfafd;
+}
+
+.card-columns .card-img {
+    height: 330px;
+    vertical-align: bottom;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+    opacity: .8;
+    transition: opacity 0.3s ease; /* Smooth transition for opacity */
+}
+
+.modal .card-img {
+    height: 500px;
+    vertical-align: bottom;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.card-columns .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(37, 33, 82, .12), 0 4px 8px rgba(37, 33, 82, .06);
+}
+
+.card-footer {
+    background: #fbfafd;
+}
+
+
+.card-footer {
+    background: #fbfafd;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Allows for absolute positioning */
+}
+
+.logo-wrapper {
+    position: absolute; /* Positioning the logo absolutely */
+    left: 50%; /* Move to the center */
+    transform: translateX(-50%); /* Center it using transform */
+}
+
+.navbar-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Make navbar-nav take full width */
+}
+
+.left-item {
+    margin-right: auto; /* Pushes "Movies" to the left */
+}
+
+.right-item {
+    margin-left: auto; /* Pushes "Privacy" to the right */
+}
+
+
+a.navbar-brand {
+    white-space: normal;
+    font-family: 'Yellowtail', cursive;
+    font-size: xx-large;
+    text-align: center;
+    word-break: break-all;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #333333;
+    border-color: #252152;
+}
+
+    .btn-primary:hover {
+        color: #333333;
+        background-color: #CCCCCC;
+        border-color: #333333;
+    }
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: white;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-link {
+    color: #f9f9f9 !important;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+p {
+    font-family: "Marcellus", sans-serif;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(350%);
+    }
+}
+
+h1 {
+    font-family: 'Nunito', sans-serif;
+}
+
+ul {
+    font-family: 'Nunito', sans-serif;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    font-family: 'Nunito', sans-serif;
+}
+/*Removed old footer and header and gave colorr which matches our websiteBackgrounds */
+.bg-navbar {
+    background: linear-gradient(135deg, #443939, #face7d);
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; 
+}
+
+.bg-footer {
+    background-color: #333333;
+}
+
+
+body {
+    background-color: #f7f7f7;
+    padding-top: 70px; 
+}
